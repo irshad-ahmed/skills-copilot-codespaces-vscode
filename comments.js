@@ -1,16 +1,18 @@
-// create a web server
-// create a route for /comments
-// serve a string "This is a comments page"
-// listen on port 3000
-const http = require('http');
-const fs = require('fs');
+// create web server
+const express = require('express');
+const app = express();
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/comments') {
-    res.write('This is a comments page');
-    res.end();
-  }
+// add body-parser middleware
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+// add comments route
+const comments = require('./routes/comments');
+app.use('/comments', comments);
+
+// start server
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Server started on http://localhost:${port}`);
 });
-
-server.listen(3000);
-console.log('Listening on port 3000');
+    
